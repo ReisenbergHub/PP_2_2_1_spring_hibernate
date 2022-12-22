@@ -23,25 +23,17 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   @SuppressWarnings("unchecked")
    public List<User> listUsers() {
-      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-      return query.getResultList();
+       String hql = "FROM User";
+       TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
+       return query.getResultList();
    }
 
-//   @Override
-//   public User getUser(String model, int series) {
-//      Session session = sessionFactory.getCurrentSession();
-//      Query<User> query = session.createQuery("FROM User user WHERE user.car.model = :parameterModel AND user.car.series = :parameterSeries");
-//      query.setParameter("parameterModel", model);
-//      query.setParameter("parameterSeries", series);
-//      User user = query.getSingleResult();
-//      return user;
-//   }
     @Override
     public Optional<User> getUser(String model, int series) {
+       String hql = "FROM User user WHERE user.car.model = :parameterModel AND user.car.series = :parameterSeries";
         Session session = sessionFactory.getCurrentSession();
-        Query<User> query = session.createQuery("FROM User user WHERE user.car.model = :parameterModel AND user.car.series = :parameterSeries");
+        Query<User> query = session.createQuery(hql);
         query.setParameter("parameterModel", model);
         query.setParameter("parameterSeries", series);
         Optional<User> user = query.getResultStream().findAny();
